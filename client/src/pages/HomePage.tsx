@@ -10,12 +10,53 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Toaster, toast } from "react-hot-toast";
+
+import { emailRegex, passwordRegex } from "../../constants/constants.ts";
+import { useState } from "react";
 
 const HomePage = () => {
+  const [name, setName] = useState();
+  const [username, setUsername] = useState();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+
+  const handleChangeName = (e: React.FormEvent<HTMLInputElement>) => {
+    const newValue = e.currentTarget.value;
+    console.log(newValue)
+  }
+
+}
+
+  const handleSubmit = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+
+    if (name) {
+      if (name?.length < 3) {
+        return toast.error("FullName must be at least 3 Letters long");
+      }
+    }
+
+    if (!email.length) {
+      return toast.error("Enter Mail");
+    }
+
+    if (!emailRegex.test(email)) {
+      return toast.error("Mail is Invalid");
+    }
+
+    if (!passwordRegex.test(password)) {
+      return toast.error("Password is Invalid");
+    }
+
+    // userAuthFromServer(serverRoute, formData);
+  };
+
   return (
     <>
       <Navbar></Navbar>
       <div className="mx-4 flex justify-center items-center h-screen">
+        <Toaster />
         <Tabs defaultValue="login" className="w-[400px]">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="sign-up">Sign-up</TabsTrigger>
@@ -26,10 +67,10 @@ const HomePage = () => {
               <CardHeader>
                 <CardTitle>Register at WeChat</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-2">
+              <CardContent id="FormElement" className="space-y-2">
                 <div className="space-y-1">
                   <Label htmlFor="name">Name</Label>
-                  <Input id="name" type="text" defaultValue="Pedro Duarte" />
+                  <Input id="name" type="text" onChange={handleChangeName} defaultValue="Pedro Duarte" />
                 </div>
                 <div className="space-y-1">
                   <Label htmlFor="username">Username</Label>
@@ -53,7 +94,7 @@ const HomePage = () => {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button>Sign-up</Button>
+                <Button onClick={handleSubmit}>Sign-up</Button>
               </CardFooter>
             </Card>
           </TabsContent>
