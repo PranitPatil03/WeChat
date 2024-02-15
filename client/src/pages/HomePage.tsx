@@ -16,36 +16,38 @@ import { emailRegex, passwordRegex } from "../../constants/constants.ts";
 import { useState } from "react";
 
 const HomePage = () => {
-  const [name, setName] = useState();
-  const [username, setUsername] = useState();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [formData, setFormData] = useState({
+    name: "",
+    username: "",
+    email: "",
+    password: "",
+  });
 
-  const handleChangeName = (e: React.FormEvent<HTMLInputElement>) => {
-    const newValue = e.currentTarget.value;
-    console.log(newValue)
-  }
+  console.log(formData)
 
-}
+  const handleChange = (e: React.FormEvent<HTMLInputElement>) => {
+    const { id, value } = e.currentTarget;
+    setFormData((prevData) => ({ ...prevData, [id]: value }));
+  };
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
-    if (name) {
-      if (name?.length < 3) {
-        return toast.error("FullName must be at least 3 Letters long");
-      }
+    const { name, email, password } = formData;
+
+    if (name && name.length < 3) {
+      return toast.error("FullName must be at least 3 Letters long");
     }
 
-    if (!email.length) {
+    if (email) {
+      if (!emailRegex.test(email)) {
+        return toast.error("Mail is Invalid");
+      }
+    } else {
       return toast.error("Enter Mail");
     }
 
-    if (!emailRegex.test(email)) {
-      return toast.error("Mail is Invalid");
-    }
-
-    if (!passwordRegex.test(password)) {
+    if (password && !passwordRegex.test(password)) {
       return toast.error("Password is Invalid");
     }
 
@@ -70,17 +72,28 @@ const HomePage = () => {
               <CardContent id="FormElement" className="space-y-2">
                 <div className="space-y-1">
                   <Label htmlFor="name">Name</Label>
-                  <Input id="name" type="text" onChange={handleChangeName} defaultValue="Pedro Duarte" />
+                  <Input
+                    id="name"
+                    type="text"
+                    onChange={handleChange}
+                    defaultValue="Pedro Duarte"
+                  />
                 </div>
                 <div className="space-y-1">
                   <Label htmlFor="username">Username</Label>
-                  <Input id="username" type="text" defaultValue="@peduarte" />
+                  <Input
+                    id="username"
+                    type="text"
+                    onChange={handleChange}
+                    defaultValue="@peduarte"
+                  />
                 </div>
                 <div className="space-y-1">
                   <Label htmlFor="email">Email</Label>
                   <Input
                     id="email"
                     type="email"
+                    onChange={handleChange}
                     defaultValue="peduarte@gmail.com"
                   />
                 </div>
@@ -89,6 +102,7 @@ const HomePage = () => {
                   <Input
                     id="password"
                     type="password"
+                    onChange={handleChange}
                     defaultValue="peduarte123*"
                   />
                 </div>
@@ -110,6 +124,7 @@ const HomePage = () => {
                   <Input
                     id="email"
                     type="email"
+                    onChange={handleChange}
                     defaultValue="peduarte@gmail.com"
                   />
                 </div>
@@ -118,6 +133,7 @@ const HomePage = () => {
                   <Input
                     id="password"
                     type="password"
+                    onChange={handleChange}
                     defaultValue="peduarte123*"
                   />
                 </div>
