@@ -1,3 +1,4 @@
+/* eslint-disable no-constant-condition */
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,11 +11,39 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Toaster, toast } from "react-hot-toast";
-
+import axios from "axios";
 import { emailRegex, passwordRegex } from "../../constants/constants.ts";
+import { storeSession } from "@/common/session.ts";
+import { useContext } from "react";
+import { userContext } from "@/context/userContext.ts";
 
-const HomePage = () => {
-  const handleSubmit = (e: { preventDefault: () => void }) => {
+const HomePage = ({ type }) => {
+  const {
+    userAuth: { accessToken },
+    setUserAuth,
+  } = useContext(userContext);
+
+  const serverRoute = type == "sign-up" ? "/auth/signup" : "/auth/login";
+
+  const userAuthFromServer = async (serverRoute: string, formData) => {
+    try {
+      const data = await axios.post(
+        import.meta.env.VITE_SERVER_DOMAIN + serverRoute,
+        formData
+      );
+      const {
+        data: { User },
+      } = data;
+      setUserAuth(User);
+      storeSession("user", JSON.stringify(User));
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  console.log(accessToken);
+
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
     const form = new FormData(formElement);
@@ -45,7 +74,7 @@ const HomePage = () => {
       return toast.error("Password is Invalid");
     }
 
-    // userAuthFromServer(serverRoute, formData);
+    await userAuthFromServer(serverRoute, formData);
   };
 
   return (
@@ -67,11 +96,21 @@ const HomePage = () => {
                 <CardContent id="FormElement" className="space-y-2">
                   <div className="space-y-1">
                     <Label htmlFor="name">Name</Label>
-                    <Input id="name" type="text" name="name" defaultValue="Pedro Duarte" />
+                    <Input
+                      id="name"
+                      type="text"
+                      name="name"
+                      defaultValue="Pedro Duarte"
+                    />
                   </div>
                   <div className="space-y-1">
                     <Label htmlFor="username">Username</Label>
-                    <Input id="username" type="text" name="username" defaultValue="@peduarte" />
+                    <Input
+                      id="username"
+                      type="text"
+                      name="username"
+                      defaultValue="@peduarte"
+                    />
                   </div>
                   <div className="space-y-1">
                     <Label htmlFor="email">Email</Label>
