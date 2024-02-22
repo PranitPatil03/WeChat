@@ -16,15 +16,13 @@ import { emailRegex, passwordRegex } from "../../constants/constants.ts";
 import { storeSession } from "@/common/session.ts";
 import { useContext } from "react";
 import { userContext } from "@/context/userContext.ts";
+import { useNavigate } from "react-router-dom";
 
-type User = {
-  username: string;
-  pic: string;
-  email: string;
-  accessToken: string;
-};
 
 const HomePage = () => {
+
+  const Navigate = useNavigate();
+
   const {
     userAuth: { accessToken },
     setUserAuth,
@@ -42,6 +40,7 @@ const HomePage = () => {
       setUserAuth(User);
       storeSession("user", JSON.stringify(User));
       toast.success("User Register Successfully ✅");
+      Navigate("/chat")
     } catch (error) {
       console.log(error.message);
       toast.error("User Registration Failed ❌");
@@ -59,11 +58,10 @@ const HomePage = () => {
         data: { User },
       } = data;
 
-      console.log("my user-->", data);
-
       setUserAuth(User);
       storeSession("user", JSON.stringify(User));
       toast.success("User Login Successfully ✅");
+      Navigate("/chat")
     } catch (error) {
       console.log(error.message);
       toast.error("User Login Failed ❌");
