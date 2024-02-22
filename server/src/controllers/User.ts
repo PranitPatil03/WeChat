@@ -4,6 +4,15 @@ import { User } from "../models/userModel";
 import bcrypt from "bcrypt";
 import { formatDataToSend } from "../services/services";
 
+type User = {
+  name: string;
+  username: string;
+  email: string;
+  password: string;
+  pic: string;
+  isAdmin: boolean;
+};
+
 export const createUser = async (req: Request, res: Response) => {
   const { name, username, email, password } = req.body;
 
@@ -54,6 +63,30 @@ export const createUser = async (req: Request, res: Response) => {
       return res.status(500).json({ error: "This email already exists" });
     }
 
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+export const loginUser = async (req: Request, res: Response) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ error: "Email Not Found" });
+    }
+
+    bcrypt.compare(password, user.password, (err, passwordMatch) => {
+      if (err) {
+        return res.status(500).json({ error: "Error occurred. Try Again" });
+      }
+      if (!passwordMatch) {
+        return res.status(404).json({ error: "Incorrect Password" });
+      } else {
+        return res.status(200).json({ User: formatDataToSend(user) });
+      }
+    });
+  } catch (error: any) {
     return res.status(500).json({ error: error.message });
   }
 };

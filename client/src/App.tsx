@@ -9,7 +9,7 @@ function App() {
   return (
     <userContext.Provider value={{ userAuth, setUserAuth }}>
       <Routes>
-        <Route path="/" element={<HomePage type="sign-up"></HomePage>}></Route>
+        <Route path="/" element={<HomePage></HomePage>}></Route>
       </Routes>
     </userContext.Provider>
   );

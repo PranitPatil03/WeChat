@@ -17,18 +17,23 @@ import { storeSession } from "@/common/session.ts";
 import { useContext } from "react";
 import { userContext } from "@/context/userContext.ts";
 
-const HomePage = ({ type }) => {
+type User = {
+  username: string;
+  pic: string;
+  email: string;
+  accessToken: string;
+};
+
+const HomePage = () => {
   const {
     userAuth: { accessToken },
     setUserAuth,
   } = useContext(userContext);
 
-  const serverRoute = type == "sign-up" ? "/auth/signup" : "/auth/login";
-
-  const userAuthFromServer = async (serverRoute: string, formData) => {
+  const userAuthSignUp = async (formData) => {
     try {
       const data = await axios.post(
-        import.meta.env.VITE_SERVER_DOMAIN + serverRoute,
+        import.meta.env.VITE_SERVER_DOMAIN + "/auth/signup",
         formData
       );
       const {
@@ -36,14 +41,36 @@ const HomePage = ({ type }) => {
       } = data;
       setUserAuth(User);
       storeSession("user", JSON.stringify(User));
+      toast.success("User Register Successfully ✅");
     } catch (error) {
       console.log(error.message);
+      toast.error("User Registration Failed ❌");
     }
   };
 
-  console.log(accessToken);
+  const userAuthLogin = async (formData) => {
+    try {
+      const data = await axios.post(
+        import.meta.env.VITE_SERVER_DOMAIN + "/auth/login",
+        formData
+      );
 
-  const handleSubmit = async (e: { preventDefault: () => void }) => {
+      const {
+        data: { User },
+      } = data;
+
+      console.log("my user-->", data);
+
+      setUserAuth(User);
+      storeSession("user", JSON.stringify(User));
+      toast.success("User Login Successfully ✅");
+    } catch (error) {
+      console.log(error.message);
+      toast.error("User Login Failed ❌");
+    }
+  };
+
+  const handleSubmitSignUp = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
     const form = new FormData(formElement);
@@ -74,7 +101,37 @@ const HomePage = ({ type }) => {
       return toast.error("Password is Invalid");
     }
 
-    await userAuthFromServer(serverRoute, formData);
+    await userAuthSignUp(formData);
+  };
+
+  const handleSubmitLogin = async (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+
+    const form = new FormData(formElement);
+
+    const formData: Record<string, string> = {};
+
+    for (let [key, value] of form.entries()) {
+      formData[key] = value as string;
+    }
+
+    console.log(formData);
+
+    const { email, password } = formData;
+
+    if (email) {
+      if (!emailRegex.test(email)) {
+        return toast.error("Mail is Invalid");
+      }
+    } else {
+      return toast.error("Enter Mail");
+    }
+
+    if (password && !passwordRegex.test(password)) {
+      return toast.error("Password is Invalid");
+    }
+
+    await userAuthLogin(formData);
   };
 
   return (
@@ -132,7 +189,7 @@ const HomePage = ({ type }) => {
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <Button onClick={handleSubmit}>Sign-up</Button>
+                  <Button onClick={handleSubmitSignUp}>Sign-up</Button>
                 </CardFooter>
               </Card>
             </TabsContent>
@@ -163,7 +220,7 @@ const HomePage = ({ type }) => {
                   </div>
                 </CardContent>
                 <CardFooter>
-                  <Button onClick={handleSubmit}>Login</Button>
+                  <Button onClick={handleSubmitLogin}>Login</Button>
                 </CardFooter>
               </Card>
             </TabsContent>
