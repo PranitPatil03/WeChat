@@ -16,10 +16,18 @@
 #   "password":"Demo123*"  
 # }
 
-GET http://localhost:3000/user/search-users
+# GET http://localhost:3000/user/search-users
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZDNhZTQ1OWI4Mzg5YTNkOGU1ODk4YyIsImlhdCI6MTcwODYxNzYxOX0.WRZ2wVegFvJBhiATFdK1FAjyIyAMoL2fPQWDI5OOWzk
+
+# {
+#   "query":"test"
+# }
+
+POST http://localhost:3000/chat
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZDNhZTQ1OWI4Mzg5YTNkOGU1ODk4YyIsImlhdCI6MTcwODYxNzYxOX0.WRZ2wVegFvJBhiATFdK1FAjyIyAMoL2fPQWDI5OOWzk
 
 {
-  "query":"test"
+  "ReceiverUser":"65d75ac299ca3554b9e9d4c2"
 }

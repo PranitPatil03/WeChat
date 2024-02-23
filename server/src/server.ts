@@ -4,7 +4,8 @@ import dotenv from "dotenv";
 import { connectToMongoDB } from "./config/db.ts";
 import { authRouter } from "./routes/auth.ts";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.ts";
-import { UserRouter } from "./routes/user.ts";
+import { userRouter } from "./routes/user.ts";
+import { chatRouter } from "./routes/chat.ts";
 
 dotenv.config();
 const app = express();
@@ -16,10 +17,11 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/auth", authRouter);
-app.use("/user", UserRouter);
+app.use("/user", userRouter);
+app.use("/chat",chatRouter)
 
 app.use(notFound)
-app.use(errorHandler)
+// app.use(errorHandler)
 
 app.get("/", (req, res) => {
   res.json({ message: "Hello from server" });

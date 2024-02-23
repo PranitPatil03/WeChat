@@ -2,7 +2,7 @@ import express from "express"
 import { getAllUsers, searchUsers } from "../controllers/User";
 import { verifyJWT } from "../middleware/authVerify";
 
-export const UserRouter = express.Router();
+export const userRouter = express.Router();
 
-UserRouter.get("/get-all-users", verifyJWT , getAllUsers);
-UserRouter.get("/search-users", verifyJWT , searchUsers);
+userRouter.get("/get-all-users", verifyJWT , getAllUsers);
+userRouter.get("/search-users", verifyJWT , searchUsers);
