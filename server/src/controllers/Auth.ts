@@ -4,15 +4,6 @@ import { User } from "../models/userModel";
 import bcrypt from "bcrypt";
 import { formatDataToSend } from "../services/services";
 
-type User = {
-  name: string;
-  username: string;
-  email: string;
-  password: string;
-  pic: string;
-  isAdmin: boolean;
-};
-
 export const createUser = async (req: Request, res: Response) => {
   const { name, username, email, password } = req.body;
 

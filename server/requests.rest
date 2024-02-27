@@ -2,9 +2,9 @@
 # Content-Type: application/json
 
 # { 
-#   "name":"pranit",
-#   "username":"pranit1221", 
-#   "email":"pranit1221@gmail.com",  
+#   "name":"user5",
+#   "username":"user5", 
+#   "email":"user5@gmail.com",  
 #   "password":"Demo123*"  
 # }
 
@@ -26,10 +26,10 @@
 
 # POST http://localhost:3000/chat
 # Content-Type: application/json
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZDNhZTQ1OWI4Mzg5YTNkOGU1ODk4YyIsImlhdCI6MTcwODYxNzYxOX0.WRZ2wVegFvJBhiATFdK1FAjyIyAMoL2fPQWDI5OOWzk
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZGUzNWJkNzljY2E5NzQ5ZjMzZWRjZSIsImlhdCI6MTcwOTA2MTU2NX0.VlQWH9pZqTFky8CeUlLhn-ffKDdCQIZtq07V6WeMPTs
 
 # {
-#   "ReceiverUser":"65d75ac299ca3554b9e9d4c2"
+#   "ReceiverUser":"65de35fd79cca9749f33edd0"
 # }
 
 # GET http://localhost:3000/chat
@@ -38,25 +38,39 @@
 
 # POST http://localhost:3000/chat/group
 # Content-Type: application/json
-# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZDNhZTQ1OWI4Mzg5YTNkOGU1ODk4YyIsImlhdCI6MTcwODYxNzYxOX0.WRZ2wVegFvJBhiATFdK1FAjyIyAMoL2fPQWDI5OOWzk
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZGUzNWJkNzljY2E5NzQ5ZjMzZWRjZSIsImlhdCI6MTcwOTA2MTU2NX0.VlQWH9pZqTFky8CeUlLhn-ffKDdCQIZtq07V6WeMPTs
 
 # {
-#   "chatName":"testGroup11",
+#   "chatName":"newChat",
 #   "groupAdmin":"pranit",
 #   "users":[
-#     "65d3ae459b8389a3d8e5898c",
-#     "65d51bee21a4f34e8f64ad7c",
-#     "65d51cf93542f4c097c1c395",
-#     "65d51eb5d03731470f7a878b"
-#   ]
+#     "65de35fd79cca9749f33edd0",
+#     "65de360b79cca9749f33edd2",
+#     "65de361779cca9749f33edd4",
+#     "65de362a79cca9749f33edd6"
+# ]
 # }
 
 
-PUT http://localhost:3000/chat/group/rename
+# PUT http://localhost:3000/chat/group/rename
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZGUzNWJkNzljY2E5NzQ5ZjMzZWRjZSIsImlhdCI6MTcwOTA2MTU2NX0.VlQWH9pZqTFky8CeUlLhn-ffKDdCQIZtq07V6WeMPTs
+
+# {
+#   "chatName":"Test Group 22222",
+#   "chatId":"65de38c15ec3ff6393db2250",
+# }
+
+# GET http://localhost:3000/chat
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZGUzNWJkNzljY2E5NzQ5ZjMzZWRjZSIsImlhdCI6MTcwOTA2MTU2NX0.VlQWH9pZqTFky8CeUlLhn-ffKDdCQIZtq07V6WeMPTs
+# 
+
+POST  http://localhost:3000/chat/group/add
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZDNhZTQ1OWI4Mzg5YTNkOGU1ODk4YyIsImlhdCI6MTcwODYxNzYxOX0.WRZ2wVegFvJBhiATFdK1FAjyIyAMoL2fPQWDI5OOWzk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZGUzNWJkNzljY2E5NzQ5ZjMzZWRjZSIsImlhdCI6MTcwOTA2MTU2NX0.VlQWH9pZqTFky8CeUlLhn-ffKDdCQIZtq07V6WeMPTs
 
 {
-  "chatName":"Test Group 22222",
-  "groupId":"65db5e34bd5f66eeddfcef7b",
+  "userId":"Test Group 22222",
+  "chatId":"65de4197e69099633cf7a171",
 }

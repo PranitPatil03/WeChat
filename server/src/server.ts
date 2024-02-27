@@ -12,24 +12,24 @@ const app = express();
 const PORT = process.env.PORT || 4000;
 
 connectToMongoDB();
-
 app.use(express.json());
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/auth", authRouter);
 app.use("/user", userRouter);
-app.use("/chat",chatRouter)
-
-app.use(notFound)
-// app.use(errorHandler)
+app.use("/chat", chatRouter);
 
 app.get("/", (req, res) => {
-  res.json({ message: "Hello from server" });
+  res.status(200).json({ status: "Hello from Server " });
 });
 
 app.get("/health", (req, res) => {
-  res.json({ status: "Server is healthy" });
+  res.status(200).json({ status: "Server is healthy" });
 });
+
+app.use(notFound);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
