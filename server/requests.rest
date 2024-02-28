@@ -66,11 +66,11 @@
 # Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZGUzNWJkNzljY2E5NzQ5ZjMzZWRjZSIsImlhdCI6MTcwOTA2MTU2NX0.VlQWH9pZqTFky8CeUlLhn-ffKDdCQIZtq07V6WeMPTs
 
 
-PUT  http://localhost:3000/chat/group/add
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZGUzNWJkNzljY2E5NzQ5ZjMzZWRjZSIsImlhdCI6MTcwOTA2MTU2NX0.VlQWH9pZqTFky8CeUlLhn-ffKDdCQIZtq07V6WeMPTs
+# PUT  http://localhost:3000/chat/group/add
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZGUzNWJkNzljY2E5NzQ5ZjMzZWRjZSIsImlhdCI6MTcwOTA2MTU2NX0.VlQWH9pZqTFky8CeUlLhn-ffKDdCQIZtq07V6WeMPTs
 
-{
-  "userId":"65df38324ad366bff5db9a69",
-  "chatId":"65df33705d0aba56b3366876"
-}
+# {
+#   "userId":"65df38324ad366bff5db9a69",
+#   "chatId":"65df33705d0aba56b3366876"
+# }

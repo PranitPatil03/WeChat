@@ -16,13 +16,9 @@ import { emailRegex, passwordRegex } from "../../constants/constants.ts";
 import { storeSession } from "@/common/session.ts";
 import { useContext } from "react";
 import { userContext } from "@/context/userContext.ts";
-import { useNavigate } from "react-router-dom";
-
+import { Navigate } from "react-router-dom";
 
 const HomePage = () => {
-
-  const Navigate = useNavigate();
-
   const {
     userAuth: { accessToken },
     setUserAuth,
@@ -40,7 +36,7 @@ const HomePage = () => {
       setUserAuth(User);
       storeSession("user", JSON.stringify(User));
       toast.success("User Register Successfully ✅");
-      Navigate("/chat")
+      Navigate("/chat");
     } catch (error) {
       console.log(error.message);
       toast.error("User Registration Failed ❌");
@@ -61,7 +57,7 @@ const HomePage = () => {
       setUserAuth(User);
       storeSession("user", JSON.stringify(User));
       toast.success("User Login Successfully ✅");
-      Navigate("/chat")
+      Navigate("/chat");
     } catch (error) {
       console.log(error.message);
       toast.error("User Login Failed ❌");
@@ -135,96 +131,101 @@ const HomePage = () => {
   return (
     <>
       {/* <Navbar></Navbar> */}
-      <div className="mx-4 flex justify-center items-center h-screen">
-        <Toaster />
-        <form id="formElement">
-          <Tabs defaultValue="login" className="w-[400px]">
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="sign-up">Sign-up</TabsTrigger>
-              <TabsTrigger value="login">Login</TabsTrigger>
-            </TabsList>
-            <TabsContent value="sign-up">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Register at WeChat</CardTitle>
-                </CardHeader>
-                <CardContent id="FormElement" className="space-y-2">
-                  <div className="space-y-1">
-                    <Label htmlFor="name">Name</Label>
-                    <Input
-                      id="name"
-                      type="text"
-                      name="name"
-                      defaultValue="Pedro Duarte"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <Label htmlFor="username">Username</Label>
-                    <Input
-                      id="username"
-                      type="text"
-                      name="username"
-                      defaultValue="@peduarte"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      name="email"
-                      defaultValue="peduarte@gmail.com"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <Label htmlFor="password">Password</Label>
-                    <Input
-                      id="password"
-                      type="password"
-                      name="password"
-                      defaultValue="peduarte123*"
-                    />
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <Button onClick={handleSubmitSignUp}>Sign-up</Button>
-                </CardFooter>
-              </Card>
-            </TabsContent>
-            <TabsContent value="login">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Login</CardTitle>
-                </CardHeader>
 
-                <CardContent className="space-y-2">
-                  <div className="space-y-1">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      name="email"
-                      defaultValue="peduarte@gmail.com"
-                    />
-                  </div>
-                  <div className="space-y-1">
-                    <Label htmlFor="password">Password</Label>
-                    <Input
-                      id="password"
-                      type="password"
-                      name="password"
-                      defaultValue="peduarte123*"
-                    />
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <Button onClick={handleSubmitLogin}>Login</Button>
-                </CardFooter>
-              </Card>
-            </TabsContent>
-          </Tabs>
-        </form>
-      </div>
+      {accessToken ? (
+        <Navigate to="/chats" />
+      ) : (
+        <div className="mx-4 flex justify-center items-center h-screen">
+          <Toaster />
+          <form id="formElement">
+            <Tabs defaultValue="login" className="w-[400px]">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="sign-up">Sign-up</TabsTrigger>
+                <TabsTrigger value="login">Login</TabsTrigger>
+              </TabsList>
+              <TabsContent value="sign-up">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Register at WeChat</CardTitle>
+                  </CardHeader>
+                  <CardContent id="FormElement" className="space-y-2">
+                    <div className="space-y-1">
+                      <Label htmlFor="name">Name</Label>
+                      <Input
+                        id="name"
+                        type="text"
+                        name="name"
+                        defaultValue="Pedro Duarte"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <Label htmlFor="username">Username</Label>
+                      <Input
+                        id="username"
+                        type="text"
+                        name="username"
+                        defaultValue="@peduarte"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <Label htmlFor="email">Email</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        name="email"
+                        defaultValue="peduarte@gmail.com"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <Label htmlFor="password">Password</Label>
+                      <Input
+                        id="password"
+                        type="password"
+                        name="password"
+                        defaultValue="peduarte123*"
+                      />
+                    </div>
+                  </CardContent>
+                  <CardFooter>
+                    <Button onClick={handleSubmitSignUp}>Sign-up</Button>
+                  </CardFooter>
+                </Card>
+              </TabsContent>
+              <TabsContent value="login">
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Login</CardTitle>
+                  </CardHeader>
+
+                  <CardContent className="space-y-2">
+                    <div className="space-y-1">
+                      <Label htmlFor="email">Email</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        name="email"
+                        defaultValue="peduarte@gmail.com"
+                      />
+                    </div>
+                    <div className="space-y-1">
+                      <Label htmlFor="password">Password</Label>
+                      <Input
+                        id="password"
+                        type="password"
+                        name="password"
+                        defaultValue="peduarte123*"
+                      />
+                    </div>
+                  </CardContent>
+                  <CardFooter>
+                    <Button onClick={handleSubmitLogin}>Login</Button>
+                  </CardFooter>
+                </Card>
+              </TabsContent>
+            </Tabs>
+          </form>
+        </div>
+      )}
     </>
   );
 };

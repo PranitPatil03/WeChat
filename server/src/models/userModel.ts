@@ -1,4 +1,8 @@
 import mongoose from "mongoose";
+import {
+  profile_imgs_collections_list,
+  profile_imgs_name_list,
+} from "../constants/constants";
 
 const userSchema = new mongoose.Schema(
   {
@@ -7,10 +11,18 @@ const userSchema = new mongoose.Schema(
     username: { type: "String", unique: true, required: true },
     password: { type: "String", required: true },
     pic: {
-      type: "String",
-      required: true,
-      default:
-        "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+      type: String,
+      default: () => {
+        return `https://api.dicebear.com/6.x/${
+          profile_imgs_collections_list[
+            Math.floor(Math.random() * profile_imgs_collections_list.length)
+          ]
+        }/svg?seed=${
+          profile_imgs_name_list[
+            Math.floor(Math.random() * profile_imgs_name_list.length)
+          ]
+        }`;
+      },
     },
     isAdmin: {
       type: Boolean,

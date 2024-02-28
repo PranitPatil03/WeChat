@@ -139,7 +139,6 @@ export const renameGroup = async (req: any, res: any) => {
         .status(500)
         .json({ error: "Failed to update the Group Name." });
     }
-    console.log(updatedChatGroupName);
 
     return res.status(201).json({ chatGroup: updatedChatGroupName });
   } catch (error) {
