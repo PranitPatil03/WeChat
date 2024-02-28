@@ -115,28 +115,31 @@ export const createGroupChat = async (req: any, res: any) => {
   }
 };
 
-//  This  function will be used for rename the group chat - but right now not working correctly
-
 export const renameGroup = async (req: any, res: any) => {
   console.log("Request Body:", req.body);
 
-  const { chatName, groupId } = req.body;
-
-  console.log(chatName, groupId);
   try {
-    const updatedChatGroupName = await Chat.findByIdAndUpdate(groupId, {
-      chatName,
-    })
-      .populate("users", "-password")
-      .populate("groupAdmin", "-password");
+    const { chatName, groupId } = req.body;
 
-    console.log(updatedChatGroupName);
+    const updatedChatGroupName = await Chat.findByIdAndUpdate(
+      groupId,
+      {
+        chatName: chatName,
+      },
+      {
+        new: true,
+      }
+    )
+      .populate("users", "-password")
+      .populate("groupAdmin", "-password")
+      .exec();
 
     if (!updatedChatGroupName) {
       return res
         .status(500)
         .json({ error: "Failed to update the Group Name." });
     }
+    console.log(updatedChatGroupName);
 
     return res.status(201).json({ chatGroup: updatedChatGroupName });
   } catch (error) {
@@ -162,11 +165,30 @@ export const addToGroup = async (req: any, res: any) => {
     .populate("groupAdmin", "-password");
 
   if (!userAdded) {
-    res.status(404);
-    throw new Error("Chat Not Found");
+    res.status(404).json({ error: "The give Chat Grp does not exist!" });
   } else {
-    res.json(userAdded);
+    res.status(201).json({ newChatGrp: userAdded });
   }
 };
 
-export const removeFromGroup = async (req: any, res: any) => {};
+export const removeFromGroup = async (req: any, res: any) => {
+  const { chatId, userId } = req.body;
+
+  const removed = await Chat.findByIdAndUpdate(
+    chatId,
+    {
+      $pull: { users: userId },
+    },
+    {
+      new: true,
+    }
+  )
+    .populate("users", "-password")
+    .populate("groupAdmin", "-password");
+
+  if (!removed) {
+    return res.status(404).json({ error: "The give Chat Grp does not exist!" });
+  } else {
+    res.status(201).json({ newChatGrp: removed });
+  }
+};
