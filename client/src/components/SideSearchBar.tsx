@@ -1,8 +1,29 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useContext, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 import {
   Sheet,
@@ -15,10 +36,14 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { userContext } from "@/context/userContext";
+import { RemoveSession } from "@/common/session";
+import { Link, useNavigate } from "react-router-dom";
 
 const SideSearchBar = () => {
+  const navigate = useNavigate();
+
   const {
-    userAuth: { accessToken, profile_img },
+    userAuth: { accessToken, profile_img ,username},
     setUserAuth,
   } = useContext(userContext);
 
@@ -32,6 +57,11 @@ const SideSearchBar = () => {
   const SHEET_SIDES = ["left"] as const;
 
   type SheetSide = (typeof SHEET_SIDES)[number];
+
+  const handleLogout = () => {
+    RemoveSession("user");
+    navigate("/");
+  };
 
   return (
     <>
@@ -88,13 +118,32 @@ const SideSearchBar = () => {
             ))}
           </div>
         </div>
-        <div className="hidden md:block font-mono text-2xl ">WeChat</div>
+        {/* <div className="hidden md:block font-mono text-2xl ">WeChat</div> */}
         <div className="flex gap-2 items-center">
           <i className="fi fi-rr-bell font-mono text-2xl mt-2 cursor-pointer"></i>
-          <img
-            src={profile_img}
-            className="w-8 h-8 rounded-full cursor-pointer"
-          />
+
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <img
+                src={profile_img}
+                className="w-8 h-8 rounded-full cursor-pointer outline-none"
+              />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="mr-2">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>
+                <Link to={`/profile/${username}/`}>
+                  Profile
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={handleLogout}>
+                Log out
+                <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
       <hr className="border-1 border-lightGrey/40 mt-3"></hr>

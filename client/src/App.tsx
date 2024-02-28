@@ -5,6 +5,7 @@ import { chatContext } from "./context/chatContext";
 import { useEffect, useState } from "react";
 import { LookInSession } from "./common/session";
 import ChatPage from "./pages/ChatPage";
+import Profile from "./components/Profile";
 
 function App() {
   const [userAuth, setUserAuth] = useState({});
@@ -35,6 +36,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage></HomePage>}></Route>
           <Route path="/chats" element={<ChatPage></ChatPage>}></Route>
+          <Route path="/profile" element={<Profile></Profile>}></Route>
         </Routes>
       </chatContext.Provider>
     </userContext.Provider>
