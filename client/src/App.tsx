@@ -36,7 +36,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage></HomePage>}></Route>
           <Route path="/chats" element={<ChatPage></ChatPage>}></Route>
-          <Route path="/profile" element={<Profile></Profile>}></Route>
+          <Route path="/user/:id" element={<Profile></Profile>}></Route>
         </Routes>
       </chatContext.Provider>
     </userContext.Provider>

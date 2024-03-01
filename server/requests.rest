@@ -2,9 +2,9 @@
 # Content-Type: application/json
 
 # { 
-#   "name":"user51",
-#   "username":"user51", 
-#   "email":"user51@gmail.com",  
+#   "name":"Pranit Patil",
+#   "username":"@pranit123", 
+#   "email":"pranit123@gmail.com",  
 #   "password":"Demo123*"  
 # }
 
@@ -74,3 +74,10 @@
 #   "userId":"65df38324ad366bff5db9a69",
 #   "chatId":"65df33705d0aba56b3366876"
 # }
+
+POST http://localhost:3000/user/get-profile
+Content-Type: application/json
+
+{
+  "username":"@pranit123"
+}

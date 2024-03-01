@@ -16,16 +16,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-
-import {
   Sheet,
   SheetClose,
   SheetContent,
@@ -133,7 +123,7 @@ const SideSearchBar = () => {
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <Link to={`/profile/${username}/`}>
+                <Link to={`/user/${username}`}>
                   Profile
                 </Link>
               </DropdownMenuItem>
