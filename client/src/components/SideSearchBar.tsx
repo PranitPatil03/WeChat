@@ -33,7 +33,7 @@ const SideSearchBar = () => {
   const navigate = useNavigate();
 
   const {
-    userAuth: { accessToken, profile_img ,username},
+    userAuth: { accessToken, profile_img, username },
     setUserAuth,
   } = useContext(userContext);
 
@@ -61,9 +61,12 @@ const SideSearchBar = () => {
             {SHEET_SIDES.map((side) => (
               <Sheet key={side}>
                 <SheetTrigger asChild>
-                  <div>
-                    <Button variant="outline" className="font-mono">
-                      <i className="fi fi-rr-search mr-1 mt-1 font-mono"></i>{" "}
+                  <div className="w-[300px] ">
+                    <Button
+                      variant="ghost"
+                      className="font-mono w-full p-3 py-5 flex justify-start text-xl"
+                    >
+                      <i className="fi fi-rr-search mr-3 mt-1 font-mono text-base"></i>{" "}
                       Search User
                     </Button>
                   </div>
@@ -123,9 +126,7 @@ const SideSearchBar = () => {
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>
-                <Link to={`/user/${username}`}>
-                  Profile
-                </Link>
+                <Link to={`/user/${username}`}>Profile</Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleLogout}>

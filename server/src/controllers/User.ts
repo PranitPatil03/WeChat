@@ -38,7 +38,7 @@ export const getProfile = async (req: any, res: any) => {
   try {
     const { username } = req.body;
 
-    const profile = await User.findOne({ username }).select("-password");
+    const profile = await User.findOne({ username }).select("name email username pic isAdmin");
 
     if (!profile) {
       return res.status(404).json({ error: "User not found" });
