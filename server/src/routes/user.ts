@@ -6,5 +6,5 @@ export const userRouter = express.Router();
 
 userRouter
   .get("/get-all-users", verifyJWT, getAllUsers)
-  .get("/search-users", verifyJWT, searchUsers)
+  .post("/search-users", verifyJWT, searchUsers)
   .post("/get-profile", getProfile);

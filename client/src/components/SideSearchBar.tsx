@@ -4,6 +4,7 @@ import { useContext, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import {
   DropdownMenu,
@@ -28,6 +29,9 @@ import {
 import { userContext } from "@/context/userContext";
 import { RemoveSession } from "@/common/session";
 import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { ChatLoading } from "@/common/ChatLoading";
 
 const SideSearchBar = () => {
   const navigate = useNavigate();
@@ -53,6 +57,45 @@ const SideSearchBar = () => {
     navigate("/");
   };
 
+  const handleUserSearch = async () => {
+    console.log(search);
+
+    if (!search) {
+      toast.error("Enter the username");
+      return;
+    }
+
+    try {
+      setLoading(true);
+
+      const { data } = await axios.post(
+        import.meta.env.VITE_SERVER_DOMAIN + "/user/search-users",
+        {
+          query: search,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      console.log(data);
+
+      setLoading(false);
+      setSearchChat(data);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  };
+
+  // const delay = (e) => {
+  //   setTimeout(() => {
+  //     setSearch(e.target.value);
+  //   }, 4000);
+  // };
+
   return (
     <>
       <div className="flex justify-between mx-10 mt-5 items-center">
@@ -75,7 +118,7 @@ const SideSearchBar = () => {
                   <SheetHeader>
                     <SheetTitle>Search User</SheetTitle>
                   </SheetHeader>
-                        <hr className="border-1 border-lightGrey/40 mt-3"></hr>
+                  <hr className="border-1 border-lightGrey/40 mt-3"></hr>
 
                   <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-4 items-center gap-4">
@@ -83,14 +126,42 @@ const SideSearchBar = () => {
                         id="name"
                         placeholder="Enter Username or Name"
                         className="col-span-3 "
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        // onChange={(e) => delay(e)}
                       />
                       <SheetHeader>
                         <SheetHeader>
-                          <Button type="submit">Search</Button>
+                          <Button type="submit" onClick={handleUserSearch}>
+                            Search
+                          </Button>
                         </SheetHeader>
                       </SheetHeader>
                     </div>
+                    <hr className="border-1 border-lightGrey/40 mt-3"></hr>
                   </div>
+
+                  {loading ? (
+                    <ChatLoading></ChatLoading>
+                  ) : (
+                    <>
+                      {searchResult.map((result, i) => {
+                        return (
+                          <div
+                            className="flex gap-4 border p-2 m-2 mt-4 rounded-xl shadow-sm"
+                            key={i}
+                          >
+                            <Avatar>
+                              <AvatarImage src={result.pic} />
+                            </Avatar>
+                            <Link to="/" className="font-mono text-lg">
+                              {result.username}
+                            </Link>
+                          </div>
+                        );
+                      })}
+                    </>
+                  )}
                 </SheetContent>
               </Sheet>
             ))}
@@ -114,10 +185,12 @@ const SideSearchBar = () => {
                 <Link to={`/user/${username}`}>Profile</Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={handleLogout}>
-                Log out
-                <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-              </DropdownMenuItem>
+              <Link to="/">
+                <DropdownMenuItem onClick={handleLogout}>
+                  Log out
+                  <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+                </DropdownMenuItem>
+              </Link>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

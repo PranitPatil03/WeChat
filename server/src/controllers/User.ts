@@ -18,15 +18,19 @@ export const searchUsers = async (req: any, res: any) => {
   const userId = req.user;
   const { query } = req.body;
 
+  console.log("search query",query)
+
   try {
     const allUser = await User.find({
       $or: [
         { name: new RegExp(query, "i") },
-        { username: new RegExp(query, "i") },
+        { username: new RegExp(query, "i") }, 
       ],
     })
       .find({ _id: { $ne: userId } })
       .select("name email username pic");
+    
+    console.log("Search users",allUser)
 
     return res.status(201).json(allUser);
   } catch (error: any) {
