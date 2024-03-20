@@ -118,13 +118,13 @@ const SideSearchBar = () => {
         }
       );
 
-      console.log(data);
+      console.log("Line 121",data.chat);
 
       if (!chats.find((c: { _id: string | number }) => c._id === data._id)) {
         setChats([data, ...chats]);
       }
 
-      setSelectChat(data);
+      setSelectChat(data.chat);
       setLoadingChat(false);
     } catch (error) {
       setLoadingChat(false);

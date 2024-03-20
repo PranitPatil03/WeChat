@@ -27,11 +27,11 @@ const ChatPage = () => {
 
         <div className="flex justify-between w-full h-[90vh] p-3">
           <ResizablePanelGroup direction="horizontal">
-            <ResizablePanel defaultSize={20}  minSize={20}>
+            <ResizablePanel defaultSize={20}  minSize={20} maxSize={35}>
               {accessToken ? <UserChats></UserChats> : null}
             </ResizablePanel>
             <ResizableHandle withHandle />
-            <ResizablePanel>
+            <ResizablePanel className="hidden md:block">
               {accessToken ? <ChatBox></ChatBox> : null}
             </ResizablePanel>
           </ResizablePanelGroup>
