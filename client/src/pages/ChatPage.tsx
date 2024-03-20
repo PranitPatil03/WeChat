@@ -5,6 +5,12 @@ import { chatContext } from "@/context/chatContext";
 import { userContext } from "@/context/userContext";
 import { useContext } from "react";
 
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
+
 const ChatPage = () => {
   const {
     userAuth: { accessToken },
@@ -20,9 +26,15 @@ const ChatPage = () => {
         {accessToken ? <SideSearchBar></SideSearchBar> : null}
 
         <div className="flex justify-between w-full h-[90vh] p-3">
-          {accessToken ? <UserChats></UserChats> : null}
-
-          {accessToken ? <ChatBox></ChatBox> : null}
+          <ResizablePanelGroup direction="horizontal">
+            <ResizablePanel defaultSize={20}  minSize={20}>
+              {accessToken ? <UserChats></UserChats> : null}
+            </ResizablePanel>
+            <ResizableHandle withHandle />
+            <ResizablePanel>
+              {accessToken ? <ChatBox></ChatBox> : null}
+            </ResizablePanel>
+          </ResizablePanelGroup>
         </div>
       </div>
     </>

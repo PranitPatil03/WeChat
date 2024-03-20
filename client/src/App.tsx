@@ -11,7 +11,7 @@ function App() {
   const [userAuth, setUserAuth] = useState({});
   const [selectChat, setSelectChat] = useState();
   const [notification, setNotification] = useState([]);
-  const [chats, setChats] = useState();
+  const [chats, setChats] = useState([]);
 
   useEffect(() => {
     const userInSession = LookInSession("user");

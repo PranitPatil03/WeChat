@@ -32,6 +32,15 @@ import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { ChatLoading } from "@/common/ChatLoading";
+import { chatContext } from "@/context/chatContext";
+
+type ResultType = {
+  _id: string | number;
+  name: string;
+  username: string;
+  email: string;
+  pic: string;
+};
 
 const SideSearchBar = () => {
   const navigate = useNavigate();
@@ -41,12 +50,15 @@ const SideSearchBar = () => {
     setUserAuth,
   } = useContext(userContext);
 
+  const { selectChat, setSelectChat, chats, setChats } =
+    useContext(chatContext);
+
   console.log(profile_img);
 
   const [search, setSearch] = useState("");
   const [searchResult, setSearchChat] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [loadingChat, setLoadingChat] = useState();
+  const [loadingChat, setLoadingChat] = useState(false);
 
   const SHEET_SIDES = ["left"] as const;
 
@@ -90,11 +102,35 @@ const SideSearchBar = () => {
     }
   };
 
-  // const delay = (e) => {
-  //   setTimeout(() => {
-  //     setSearch(e.target.value);
-  //   }, 4000);
-  // };
+  const accessUserChat = async (id: string | number) => {
+    try {
+      setLoadingChat(true);
+
+      const { data } = await axios.post(
+        import.meta.env.VITE_SERVER_DOMAIN + "/chat",
+        {
+          ReceiverUser: id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      console.log(data);
+
+      if (!chats.find((c: { _id: string | number }) => c._id === data._id)) {
+        setChats([data, ...chats]);
+      }
+
+      setSelectChat(data);
+      setLoadingChat(false);
+    } catch (error) {
+      setLoadingChat(false);
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -145,11 +181,12 @@ const SideSearchBar = () => {
                     <ChatLoading></ChatLoading>
                   ) : (
                     <>
-                      {searchResult.map((result, i) => {
+                      {searchResult.map((result: ResultType, i) => {
                         return (
                           <div
                             className="flex gap-4 border p-2 m-2 mt-4 rounded-xl shadow-sm"
                             key={i}
+                            onClick={() => accessUserChat(result._id)}
                           >
                             <Avatar>
                               <AvatarImage src={result.pic} />
