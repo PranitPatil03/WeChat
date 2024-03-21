@@ -17,9 +17,10 @@ import { Button } from "./ui/button";
 import { Label } from "@radix-ui/react-label";
 import { Input } from "./ui/input";
 import { ChatLoading } from "@/common/ChatLoading";
-import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { Link } from "react-router-dom";
 import { log } from "console";
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 type chat = {
   _id: string | number;
@@ -73,7 +74,7 @@ const UserChats = () => {
 
   const getSenderProfile = (loggedUser, users) => {
     if (loggedUser && users) {
-      return users[0]?._id === loggedUser?.id ? users[1].profile_img : users[0].profile_img;
+      return users[0]?._id === loggedUser?.id ? users[1].pic : users[0].pic;
     }
   };
 
@@ -87,7 +88,7 @@ const UserChats = () => {
 
   return (
     <>
-      <main className="flex flex-col w-full h-full ">
+      <main className="flex flex-col w-full h-screen">
         <div className="w-full flex items-center justify-around">
           <h1 className="text-2xl text-black my-2 font-mono font-semibold">
             My Chats
@@ -128,52 +129,57 @@ const UserChats = () => {
             </DialogContent>
           </Dialog>
         </div>
-        <hr className="border-1 border-lightGrey/40 mt-2"></hr>
-        <div className="w-full flex items-center">
+        <hr className="border-1 border-lightGrey/40 my-2"></hr>
+        <div className="w-full flex items-center overflow-y-scroll">
           {chats ? (
-            <div className="w-[90%]">
-              {chats.map((chat, i) => {
-                return (
-                  <div
-                    className={`cursor-pointer flex gap-4 border p-2 m-2 mt-4 rounded-xl shadow-sm w-full ${
-                      selectChat == chat ? "bg-#38B2AC" : "bg-E8E8E8"
-                    }`}
-                    key={i}
-                    onClick={() => setSelectChat(chat)}
-                  >
-                    <div className="flex flex-row gap-3">
-                    <Avatar className="">
+            <div className="w-full">
+              {chats.map((chat, i) => (
+                <div
+                  className={`cursor-pointer flex items-center gap-4 border p-2 m-2 mt-4 rounded-xl shadow-sm ${
+                    selectChat === chat ? "bg-[#e3e5e9]" : "bg-[#f5f5f5]"
+                  }`}
+                  key={i}
+                  onClick={() => setSelectChat(chat)}
+                >
+                  <div className="flex gap-3 items-center justify-center">
+                    <Avatar>
                       <AvatarImage
-                        src={!chat.isGroupChat
-                        ? getSenderProfile(loggedUser, chat.users)
-                        : chat.profile_img}
-                        className="w-12 h-12 rounded-full"
-                        />
+                        src={
+                          !chat.isGroupChat
+                            ? getSenderProfile(loggedUser, chat.users)
+                            : chat.profile_img
+                        }
+                        className="w-10 h-10 rounded-full "
+                      />
                     </Avatar>
-                    <h1 className="font-mono text-lg">
-                      {!chat.isGroupChat
-                        ? getSenderName(loggedUser, chat.users)
-                        : chat.chatName}
+                    <div>
+                      <h1 className="font-mono text-lg">
+                        {!chat.isGroupChat
+                          ? getSenderName(loggedUser, chat.users)
+                          : chat.chatName}
                       </h1>
-                    </div>
-
-                    <div className="">
-                      {chat.latestMessage && (
+                      <div>
                         <div>
-                          <b>{chat.latestMessage.sender.name} : </b>
-                          {chat.latestMessage.content.length > 50
-                            ? chat.latestMessage.content.substring(0, 51) +
-                              "..."
-                            : chat.latestMessage.content}
-                        </div>
-                      )}
+                            <b>Pranit : </b>
+                            <p>Lorem ipsum, dolor sit amet ...</p>
+                          </div>{/*  */}
+                        {/* {chat.latestMessage && (
+                          <div>
+                            <b>{chat.latestMessage.sender.name} : </b>
+                            {chat.latestMessage.content.length > 50
+                              ? chat.latestMessage.content.substring(0, 51) +
+                                "..."
+                              : chat.latestMessage.content}
+                          </div>
+                        )} */}
+                      </div>
                     </div>
                   </div>
-                );
-              })}
+                </div>
+              ))}
             </div>
           ) : (
-            <ChatLoading></ChatLoading>
+            <ChatLoading />
           )}
         </div>
       </main>
