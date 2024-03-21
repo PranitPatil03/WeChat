@@ -19,6 +19,7 @@ import { Input } from "./ui/input";
 import { ChatLoading } from "@/common/ChatLoading";
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { Link } from "react-router-dom";
+import { log } from "console";
 
 type chat = {
   _id: string | number;
@@ -35,16 +36,11 @@ const UserChats = () => {
     setUserAuth,
   } = useContext(userContext);
 
-  const {
-    user,
-    selectChat,
-    setSelectChat,
-    chats,
-    setChats,
-  } = useContext(chatContext);
+  const { user, selectChat, setSelectChat, chats, setChats } =
+    useContext(chatContext);
 
   const [loggedUser, setLoggedUser] = useState();
-  console.log(loggedUser)
+  console.log(loggedUser);
 
   const fetchChats = async () => {
     try {
@@ -70,11 +66,16 @@ const UserChats = () => {
   };
 
   const getSenderName = (loggedUser, users) => {
-    console.log(loggedUser)
-    console.log(users)
-    return users[0]._id===loggedUser._id
-     ? users[1].name :users[0].name
-  }
+    if (loggedUser && users) {
+      return users[0]?._id === loggedUser?.id ? users[1].name : users[0].name;
+    }
+  };
+
+  const getSenderProfile = (loggedUser, users) => {
+    if (loggedUser && users) {
+      return users[0]?._id === loggedUser?.id ? users[1].profile_img : users[0].profile_img;
+    }
+  };
 
   useEffect(() => {
     const userString = LookInSession("user");
@@ -135,23 +136,37 @@ const UserChats = () => {
                 return (
                   <div
                     className={`cursor-pointer flex gap-4 border p-2 m-2 mt-4 rounded-xl shadow-sm w-full ${
-                      selectChat ==chat ? "bg-#38B2AC" : "bg-E8E8E8"
+                      selectChat == chat ? "bg-#38B2AC" : "bg-E8E8E8"
                     }`}
                     key={i}
-                    onClick={()=>setSelectChat(chat)}
+                    onClick={() => setSelectChat(chat)}
                   >
-                    {/* <Avatar className="">
+                    <div className="flex flex-row gap-3">
+                    <Avatar className="">
                       <AvatarImage
-                        src={chat.users[1].pic}
+                        src={!chat.isGroupChat
+                        ? getSenderProfile(loggedUser, chat.users)
+                        : chat.profile_img}
                         className="w-12 h-12 rounded-full"
-                      />
+                        />
                     </Avatar>
                     <h1 className="font-mono text-lg">
-                      {chat.users[1].username}
-                    </h1> */}
+                      {!chat.isGroupChat
+                        ? getSenderName(loggedUser, chat.users)
+                        : chat.chatName}
+                      </h1>
+                    </div>
 
                     <div className="">
-                      {!chat.isGroupChat ? getSenderName(loggedUser,chat.users):chat.chatName}
+                      {chat.latestMessage && (
+                        <div>
+                          <b>{chat.latestMessage.sender.name} : </b>
+                          {chat.latestMessage.content.length > 50
+                            ? chat.latestMessage.content.substring(0, 51) +
+                              "..."
+                            : chat.latestMessage.content}
+                        </div>
+                      )}
                     </div>
                   </div>
                 );

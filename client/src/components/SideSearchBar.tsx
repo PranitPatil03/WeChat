@@ -53,7 +53,7 @@ const SideSearchBar = () => {
   const { selectChat, setSelectChat, chats, setChats } =
     useContext(chatContext);
 
-  console.log(profile_img);
+  console.log(chats);
 
   const [search, setSearch] = useState("");
   const [searchResult, setSearchChat] = useState([]);
