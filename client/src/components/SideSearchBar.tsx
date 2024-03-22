@@ -205,14 +205,14 @@ const SideSearchBar = () => {
           </div>
         </div>
         {/* <div className="hidden md:block font-mono text-2xl ">WeChat</div> */}
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-2 items-center ">
           <i className="fi fi-rr-bell font-mono text-2xl mt-2 cursor-pointer"></i>
 
           <DropdownMenu>
             <DropdownMenuTrigger>
               <img
                 src={profile_img}
-                className="w-8 h-8 rounded-full cursor-pointer outline-none"
+                className="w-full md:w-8 h-8 rounded-full cursor-pointer outline-none border"
               />
             </DropdownMenuTrigger>
             <DropdownMenuContent className="mr-2">

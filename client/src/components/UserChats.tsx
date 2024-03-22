@@ -21,6 +21,7 @@ import { Link } from "react-router-dom";
 import { log } from "console";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 type chat = {
   _id: string | number;
@@ -130,40 +131,42 @@ const UserChats = () => {
           </Dialog>
         </div>
         <hr className="border-1 border-lightGrey/40 my-2"></hr>
-        <div className="w-full flex items-center overflow-y-scroll">
-          {chats ? (
-            <div className="w-full">
-              {chats.map((chat, i) => (
-                <div
-                  className={`cursor-pointer flex items-center gap-4 border p-2 m-2 mt-4 rounded-xl shadow-sm ${
-                    selectChat === chat ? "bg-[#e3e5e9]" : "bg-[#f5f5f5]"
-                  }`}
-                  key={i}
-                  onClick={() => setSelectChat(chat)}
-                >
-                  <div className="flex gap-3 items-center justify-center">
-                    <Avatar>
-                      <AvatarImage
-                        src={
-                          !chat.isGroupChat
-                            ? getSenderProfile(loggedUser, chat.users)
-                            : chat.profile_img
-                        }
-                        className="w-10 h-10 rounded-full "
-                      />
-                    </Avatar>
-                    <div>
-                      <h1 className="font-mono text-lg">
-                        {!chat.isGroupChat
-                          ? getSenderName(loggedUser, chat.users)
-                          : chat.chatName}
-                      </h1>
+        <ScrollArea>
+          <div className="w-full flex items-center mb-1">
+            {chats ? (
+              <div className="w-full">
+                {chats.map((chat, i) => (
+                  <div
+                    className={`cursor-pointer flex items-center gap-4 border p-2 m-2 mt-4 rounded-xl shadow-sm ${
+                      selectChat === chat ? "bg-[#efeff1]" : ""
+                    }`}
+                    key={i}
+                    onClick={() => setSelectChat(chat)}
+                  >
+                    <div className="flex gap-3 items-center justify-center">
+                      <Avatar>
+                        <AvatarImage
+                          src={
+                            !chat.isGroupChat
+                              ? getSenderProfile(loggedUser, chat.users)
+                              : chat.profile_img
+                          }
+                          className="w-10 h-10 rounded-full "
+                        />
+                      </Avatar>
                       <div>
+                        <h1 className="font-mono text-lg">
+                          {!chat.isGroupChat
+                            ? getSenderName(loggedUser, chat.users)
+                            : chat.chatName}
+                        </h1>
                         <div>
+                          {/* <div>
                             <b>Pranit : </b>
                             <p>Lorem ipsum, dolor sit amet ...</p>
-                          </div>{/*  */}
-                        {/* {chat.latestMessage && (
+                          </div> */}
+                          {/*  */}
+                          {/* {chat.latestMessage && (
                           <div>
                             <b>{chat.latestMessage.sender.name} : </b>
                             {chat.latestMessage.content.length > 50
@@ -172,16 +175,17 @@ const UserChats = () => {
                               : chat.latestMessage.content}
                           </div>
                         )} */}
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <ChatLoading />
-          )}
-        </div>
+                ))}
+              </div>
+            ) : (
+              <ChatLoading />
+            )}
+          </div>  
+        </ScrollArea>
       </main>
     </>
   );
