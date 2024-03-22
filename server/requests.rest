@@ -75,10 +75,28 @@
 #   "chatId":"65df33705d0aba56b3366876"
 # }
 
-POST http://localhost:3000/user/search-users
+# POST http://localhost:3000/user/search-users
+# Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZGUzNWJkNzljY2E5NzQ5ZjMzZWRjZSIsImlhdCI6MTcwOTA2MTU2NX0.VlQWH9pZqTFky8CeUlLhn-ffKDdCQIZtq07V6WeMPTs
+
+# {
+#   "query":"demo"
+# }
+
+
+# POST http://localhost:3000/auth/login 
+# Content-Type: application/json
+
+# { 
+#   "email":"nik@gmail.com",  
+#   "password":"Test123*"  
+# }
+
+POST http://localhost:3000/message
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZGUzNWJkNzljY2E5NzQ5ZjMzZWRjZSIsImlhdCI6MTcwOTA2MTU2NX0.VlQWH9pZqTFky8CeUlLhn-ffKDdCQIZtq07V6WeMPTs
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZmQ5YTVmNzlkZTFiMGIxZmFkZWM3ZSIsImlhdCI6MTcxMTExOTI3M30.MnQuF7gVVpKdz2-WSpNMlPpPaQPnvv0occHrpfefKAw
 
 {
-  "query":"demo"
+  "content":"12434343434",
+  "chatId":"65fc7661309a34b53d80020b"
 }
